@@ -7,6 +7,24 @@
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="jquery.mobile.js"></script>
 		<script type="text/javascript" src="cordova-2.6.0.js"></script>
+		<script>
+			$(document).bind("mobileinit", function(){ 
+			    $.mobile.ajaxEnabled=false; 
+			}); 
+			$(document).bind("ready", function(){ 
+		        $("#loginButton").on("click", function(){
+					$.mobile.changePage("/login", {
+						transition: "slideup"
+					});
+				});
+		        $("#ajaxLoginButton").on("click", function(){
+					$.getJSON("http://10.0.2.2:8080/myfirstappserver/login",{}, function(data){
+						$("#ajaxResult").append("<p>"+data.username+"</p>");
+						$("#ajaxResult").append("<p>"+data.password+"</p>");
+					});
+				});
+			}); 
+		</script>
 	</head>
 	<body>
 		<h1>hello World!</h1>
@@ -23,18 +41,19 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><input id="loginButton" type="button" value="login"/></td>
+						<td><a id="loginButton" data-role='button'>login</a></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><a id="ajaxLoginButton" data-role='button'>AJAX</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
+		<div id="ajaxResult">
+		</div>
 	</body>
 	<script type="text/javascript">
-		$("#loginButton").on("click", function(){
-			alert("hello");
-			$.mobile.changePage("login.html", {
-				transition: "slideup"
-			});
-		});
+		
 	</script>
 </html>
